@@ -56,7 +56,7 @@ Build the Graveyard feature for Repo Necromancer.
   - Depends on: 1
   - Create apps/web/lib/eol.ts with fetchEolStatus function
 
-- [ ] 10. Graveyard page (server component and data orchestration)
+- [x] 10. Graveyard page (server component and data orchestration)
   - Depends on: 1, 2, 3, 4, 5, 6, 7, 8, 9
   - Create apps/web/app/graveyard/page.tsx server component
   - Create apps/web/app/graveyard/loading.tsx skeleton
