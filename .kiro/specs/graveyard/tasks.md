@@ -43,7 +43,7 @@ Build the Graveyard feature for Repo Necromancer.
   - Create packages/core/src/sort-tombstones.ts with sortTombstones pure function
   - Create packages/core/tests/sort-tombstones.test.ts with unit and property tests
 
-- [ ] 7. GitHub API client
+- [x] 7. GitHub API client
   - Depends on: 1
   - Create apps/web/lib/github.ts with fetchUserRepos fetchRepo fetchFileContent
   - Create apps/web/lib/errors.ts with RateLimitError NotFoundError GitHubApiError
