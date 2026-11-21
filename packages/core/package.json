@@ -15,7 +15,9 @@
     "./autopsy/build-runtime-finding": "./src/autopsy/build-runtime-finding.ts",
     "./autopsy/build-dep-findings": "./src/autopsy/build-dep-findings.ts",
     "./autopsy/build-vuln-finding": "./src/autopsy/build-vuln-finding.ts",
-    "./autopsy/build-hygiene-findings": "./src/autopsy/build-hygiene-findings.ts"
+    "./autopsy/build-hygiene-findings": "./src/autopsy/build-hygiene-findings.ts",
+    "./autopsy/pick-cause-of-death": "./src/autopsy/pick-cause-of-death.ts",
+    "./autopsy/assemble-report": "./src/autopsy/assemble-report.ts"
   },
   "scripts": {
     "test": "vitest run",

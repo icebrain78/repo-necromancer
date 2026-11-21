@@ -34,7 +34,7 @@ Build the Autopsy feature for Repo Necromancer: deep static analysis of a Dead N
   - Create `packages/core/tests/autopsy/build-vuln-finding.test.ts`
   - Create `packages/core/tests/autopsy/build-hygiene-findings.test.ts`
 
-- [ ] 4. pick-cause-of-death and assemble-report (core)
+- [x] 4. pick-cause-of-death and assemble-report (core)
   - Depends on: 1, 3
   - Create `packages/core/src/autopsy/pick-cause-of-death.ts` with `pickCauseOfDeath(findings): AutopsyFinding | null` using the deterministic priority rules from REQ-A4.1
   - Create `packages/core/src/autopsy/assemble-report.ts` with `assembleReport(owner, name, findings, causeOfDeath, narrative, truncatedDepCount, now?): AutopsyReport`
