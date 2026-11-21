@@ -35,6 +35,10 @@ import { fetchDeprecatedAndLatest } from '../../lib/npm';
 import { fetchVulnBatch } from '../../lib/osv';
 import { NotFoundError, RateLimitError, GitHubApiError } from '../../lib/errors';
 import { RateLimitError as RateLimitErrorComponent } from '../../components/RateLimitError';
+import { AutopsyHeader } from '../../components/AutopsyHeader';
+import { FindingsGroup } from '../../components/FindingsGroup';
+import { DownloadReportButton } from '../../components/DownloadReportButton';
+import { ResurrectButton } from '../../components/ResurrectButton';
 
 // ---------------------------------------------------------------------------
 // Param validation (REQ-A1.2)
@@ -106,7 +110,7 @@ function settledValue<T>(result: PromiseSettledResult<T>, fallback: T): T {
 }
 
 // ---------------------------------------------------------------------------
-// Minimal UI stubs (task 8 will replace with proper components)
+// Error state
 // ---------------------------------------------------------------------------
 
 function ErrorState({ message }: { message: string }) {
@@ -114,126 +118,6 @@ function ErrorState({ message }: { message: string }) {
     <div className="min-h-screen bg-stone-950 text-stone-100 flex items-center justify-center p-8">
       <p className="text-red-400 max-w-lg text-center">{message}</p>
     </div>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Inline components (REQ-A8) – proper versions live in task 8 components.
-// These are co-located here so the page compiles and renders for task 7.
-// ---------------------------------------------------------------------------
-
-function AutopsyHeader({
-  report,
-}: {
-  report: AutopsyReport;
-}) {
-  const { owner, name, causeOfDeath, narrative } = report;
-  return (
-    <header className="mb-8 space-y-3">
-      <h1 className="font-serif text-3xl text-stone-100">
-        <a
-          href={`https://github.com/${owner}/${name}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:text-stone-300 underline underline-offset-4"
-        >
-          {owner}/{name}
-        </a>
-      </h1>
-      <p className="text-red-400 font-semibold">
-        Cause of death:{' '}
-        {causeOfDeath ? causeOfDeath.title : 'No cause identified'}
-      </p>
-      <blockquote className="border-l-4 border-stone-500 pl-4 text-stone-300 italic leading-relaxed">
-        {narrative}
-      </blockquote>
-    </header>
-  );
-}
-
-type FindingSeverity = 'fatal' | 'serious' | 'minor';
-
-const SEVERITY_LABEL: Record<FindingSeverity, string> = {
-  fatal: 'Fatal',
-  serious: 'Serious',
-  minor: 'Minor',
-};
-
-const SEVERITY_COLOR: Record<FindingSeverity, string> = {
-  fatal: 'text-red-400',
-  serious: 'text-orange-400',
-  minor: 'text-yellow-400',
-};
-
-function FindingCard({ finding }: { finding: AutopsyFinding }) {
-  return (
-    <article className="bg-stone-800 border border-stone-700 rounded p-4 space-y-1">
-      <p className="font-semibold text-stone-100">{finding.title}</p>
-      <p className="font-mono text-sm text-stone-300 break-words">{finding.evidence}</p>
-      <p className="text-sm text-stone-400">Fix: {finding.fixHint}</p>
-    </article>
-  );
-}
-
-function FindingsGroup({
-  severity,
-  findings,
-}: {
-  severity: FindingSeverity;
-  findings: AutopsyFinding[];
-}) {
-  if (findings.length === 0) return null;
-  const color = SEVERITY_COLOR[severity];
-  const label = SEVERITY_LABEL[severity];
-  return (
-    <section aria-labelledby={`findings-${severity}`} className="mb-6">
-      <h2 id={`findings-${severity}`} className={`font-serif text-xl mb-3 ${color}`}>
-        {label}{' '}
-        <span className={`text-sm font-mono ${color}`} aria-label={`${findings.length} findings`}>
-          <span className="sr-only">{findings.length} findings</span>
-          <span aria-hidden="true">({findings.length})</span>
-        </span>
-      </h2>
-      <div className="space-y-3">
-        {findings.map((f) => (
-          <FindingCard key={f.id} finding={f} />
-        ))}
-      </div>
-    </section>
-  );
-}
-
-// DownloadReportButton and ResurrectButton will be proper client components in
-// task 8; for task 7 we include minimal inline server-rendered placeholders so
-// the page is fully functional. The aria-label satisfies REQ-A9.4.
-function DownloadReportButtonPlaceholder({ reportJson, owner, name }: {
-  reportJson: string;
-  owner: string;
-  name: string;
-}) {
-  // Rendered as a form-action button so it works without JS in the stub.
-  // Task 8 replaces this with the proper client component using Blob URLs.
-  void reportJson; void owner; void name;
-  return (
-    <button
-      aria-label="Download autopsy report as JSON"
-      className="px-4 py-2 bg-stone-700 hover:bg-stone-600 text-stone-100 rounded disabled:opacity-40 disabled:cursor-not-allowed"
-      disabled
-      title="Download available after task 8 client component is wired in"
-    >
-      Download report (JSON)
-    </button>
-  );
-}
-
-function ResurrectButtonPlaceholder() {
-  return (
-    <button
-      disabled
-      className="px-4 py-2 opacity-40 cursor-not-allowed bg-stone-700 text-stone-100 rounded"
-    >
-      Resurrect (coming soon)
-    </button>
   );
 }
 
@@ -431,12 +315,12 @@ export default async function AutopsyPage({ searchParams }: PageProps) {
       </main>
 
       <footer className="mt-8 flex gap-4">
-        <DownloadReportButtonPlaceholder
+        <DownloadReportButton
           reportJson={reportJson}
           owner={owner}
           name={name}
         />
-        <ResurrectButtonPlaceholder />
+        <ResurrectButton />
       </footer>
     </div>
   );

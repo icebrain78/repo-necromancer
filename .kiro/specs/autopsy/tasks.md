@@ -67,7 +67,7 @@ Build the Autopsy feature for Repo Necromancer: deep static analysis of a Dead N
     - Pass `AutopsyReport` and stringified JSON to child components
   - Create `apps/web/app/autopsy/loading.tsx` skeleton placeholder
 
-- [ ] 8. Autopsy UI components (web)
+- [x] 8. Autopsy UI components (web)
   - Depends on: 1, 7
   - Create `apps/web/components/AutopsyHeader.tsx` with repo link, cause-of-death line, and narrative blockquote
   - Create `apps/web/components/FindingsGroup.tsx` for one severity section; skip render when findings array is empty; use correct Tailwind colour per severity
