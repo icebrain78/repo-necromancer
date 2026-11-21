@@ -80,7 +80,7 @@ Build the Autopsy feature for Repo Necromancer: deep static analysis of a Dead N
   - Depends on: 8
   - Update `apps/web/components/TombstoneCard.tsx`: wrap repo name in `<Link href="/autopsy?repo={owner}/{name}">` when `status === 'Dead'`; leave other statuses as plain text
 
-- [ ] 10. Autopsy integration test with fixture data
+- [x] 10. Autopsy integration test with fixture data
   - Depends on: 1, 2, 3, 4, 5
   - Add a fixture in `fixtures/graves/` representing a Dead Node.js repo (package.json with a deprecated dep, an EOL Node version, and no lockfile)
   - Create `packages/core/tests/autopsy/autopsy-integration.test.ts` using the fixture data; mock all network calls; use `LLM_PROVIDER=none`; assert the assembled report's `findings` contain at least `"node-eol"`, `"deprecated-deps"`, and `"missing-lockfile"`; assert `causeOfDeath` is not null
