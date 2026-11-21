@@ -28,7 +28,7 @@ Build the Graveyard feature for Repo Necromancer.
   - Create packages/core/src/extract-node-version.ts with extractNodeVersion pure function
   - Create packages/core/tests/extract-node-version.test.ts with unit and property tests
 
-- [ ] 4. resolve-lts-alias (core)
+- [x] 4. resolve-lts-alias (core)
   - Depends on: 1
   - Create packages/core/src/resolve-lts-alias.ts with static LTS lookup table
   - Create packages/core/tests/resolve-lts-alias.test.ts with unit and property tests
