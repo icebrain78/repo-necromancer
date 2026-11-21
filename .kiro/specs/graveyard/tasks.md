@@ -48,7 +48,7 @@ Build the Graveyard feature for Repo Necromancer.
   - Create apps/web/lib/github.ts with fetchUserRepos fetchRepo fetchFileContent
   - Create apps/web/lib/errors.ts with RateLimitError NotFoundError GitHubApiError
 
-- [ ] 8. npm registry client
+- [x] 8. npm registry client
   - Depends on: 1
   - Create apps/web/lib/npm.ts with fetchDeprecatedCount function
 
