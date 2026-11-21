@@ -23,7 +23,7 @@ Build the Autopsy feature for Repo Necromancer: deep static analysis of a Dead N
   - Create `packages/core/tests/autopsy/resolve-min-version.test.ts` with unit and fast-check property tests (output is dotted-numeric string or null)
   - Create `packages/core/tests/autopsy/cap-dependencies.test.ts` with property tests verifying `Object.keys(capped).length <= limit` and correct `truncatedDepCount`
 
-- [ ] 3. Finding builder pure functions (core)
+- [x] 3. Finding builder pure functions (core)
   - Depends on: 1
   - Create `packages/core/src/autopsy/build-runtime-finding.ts` with `buildRuntimeFinding(majorVersion, eolDate): AutopsyFinding[]`
   - Create `packages/core/src/autopsy/build-dep-findings.ts` with `buildDepFindings(results: DepResult[]): AutopsyFinding[]` (produces deprecated-deps and outdated-majors findings)

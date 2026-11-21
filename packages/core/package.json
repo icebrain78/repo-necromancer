@@ -11,7 +11,11 @@
     "./classify-repo": "./src/classify-repo.ts",
     "./sort-tombstones": "./src/sort-tombstones.ts",
     "./autopsy/resolve-min-version": "./src/autopsy/resolve-min-version.ts",
-    "./autopsy/cap-dependencies": "./src/autopsy/cap-dependencies.ts"
+    "./autopsy/cap-dependencies": "./src/autopsy/cap-dependencies.ts",
+    "./autopsy/build-runtime-finding": "./src/autopsy/build-runtime-finding.ts",
+    "./autopsy/build-dep-findings": "./src/autopsy/build-dep-findings.ts",
+    "./autopsy/build-vuln-finding": "./src/autopsy/build-vuln-finding.ts",
+    "./autopsy/build-hygiene-findings": "./src/autopsy/build-hygiene-findings.ts"
   },
   "scripts": {
     "test": "vitest run",
