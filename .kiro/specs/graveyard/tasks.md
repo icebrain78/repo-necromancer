@@ -18,7 +18,7 @@ Build the Graveyard feature for Repo Necromancer.
   - Create apps/web/tsconfig.json strict
   - Create pnpm-workspace.yaml registering apps and packages workspaces
 
-- [ ] 2. detect-node (core)
+- [x] 2. detect-node (core)
   - Depends on: 1
   - Create packages/core/src/detect-node.ts with isNodeRepo pure function
   - Create packages/core/tests/detect-node.test.ts with unit and property tests
