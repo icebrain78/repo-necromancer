@@ -41,7 +41,7 @@ Build the Autopsy feature for Repo Necromancer: deep static analysis of a Dead N
   - Create `packages/core/tests/autopsy/pick-cause-of-death.test.ts` with property tests: result is always a member of input array; empty input returns null; dominant finding is always chosen
   - Create `packages/core/tests/autopsy/assemble-report.test.ts` with unit tests
 
-- [ ] 5. LLM provider module (core)
+- [x] 5. LLM provider module (core)
   - Depends on: 1
   - Create `packages/core/llm/types.ts` with `LlmProvider` interface and `LlmConfig` type
   - Create `packages/core/llm/none-provider.ts` with deterministic 3–5 sentence template from findings
