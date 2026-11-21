@@ -1,9 +1,9 @@
 /**
- * Graveyard page – server component (task 10).
+ * Graveyard page – server component.
  *
  * Orchestrates all data fetching for a GitHub username or single repo URL,
  * classifies every repo, sorts the results, and renders a grid of tombstone
- * cards.
+ * cards via the UI components added in task 11.
  *
  * Data flow:
  *   1. Parse ?q → username | { owner, repo }
@@ -13,9 +13,6 @@
  *   5. Per-repo parallel analysis (Node detection, package.json, .nvmrc, EOL)
  *   6. classifyRepo + sortTombstones
  *   7. Render grid
- *
- * UI components (GraveyardGrid, TombstoneCard, StatusBadge, RateLimitError)
- * are added in task 11 and will replace the inline render helpers below.
  */
 
 import { classifyRepo } from '@repo-necromancer/core/classify-repo';
@@ -28,7 +25,9 @@ import type { TombstoneData } from '@repo-necromancer/core/types';
 import { fetchFileContent, fetchRepo, fetchUserRepos } from '../../lib/github';
 import { fetchEolStatus } from '../../lib/eol';
 import { fetchDeprecatedCount } from '../../lib/npm';
-import { GitHubApiError, NotFoundError, RateLimitError } from '../../lib/errors';
+import { NotFoundError, RateLimitError } from '../../lib/errors';
+import { GraveyardGrid } from '../../components/GraveyardGrid';
+import { RateLimitError as RateLimitErrorComponent } from '../../components/RateLimitError';
 
 // ---------------------------------------------------------------------------
 // Input parsing
@@ -272,27 +271,7 @@ export default async function GraveyardPage({ searchParams }: PageProps) {
     }
   } catch (err) {
     if (err instanceof RateLimitError) {
-      return (
-        <div className="min-h-screen bg-stone-950 text-stone-100 flex items-center justify-center p-8">
-          <div className="max-w-lg text-center space-y-4">
-            <p className="text-2xl">⚰️</p>
-            <p className="text-red-400 font-serif text-lg">
-              The spirits are restless — GitHub&apos;s rate limit has been reached.
-              {err.resetAt ? ` Try again after ${err.resetAt}.` : ''}
-              {' '}
-              Add a <code className="text-stone-300">GITHUB_TOKEN</code> to increase your limit.
-            </p>
-            <form action="">
-              <button
-                type="submit"
-                className="mt-4 px-4 py-2 bg-stone-700 hover:bg-stone-600 text-stone-100 rounded"
-              >
-                Try again
-              </button>
-            </form>
-          </div>
-        </div>
-      );
+      return <RateLimitErrorComponent resetAt={err.resetAt} />;
     }
     if (err instanceof NotFoundError) {
       return (
@@ -391,7 +370,7 @@ export default async function GraveyardPage({ searchParams }: PageProps) {
   const sorted = sortTombstones(tombstones);
 
   // -------------------------------------------------------------------------
-  // 7. Render (inline until task 11 adds GraveyardGrid / TombstoneCard)
+  // 7. Render
   // -------------------------------------------------------------------------
 
   return (
@@ -400,97 +379,10 @@ export default async function GraveyardPage({ searchParams }: PageProps) {
         <h1 className="font-serif text-3xl text-stone-100">The Graveyard</h1>
         <p className="text-stone-400 mt-1">
           {sorted.length} {sorted.length === 1 ? 'soul' : 'souls'} unearthed
-          {remainder > 0 && (
-            <span className="ml-2 text-stone-500 text-sm">
-              (+{remainder} more graves not dug)
-            </span>
-          )}
         </p>
       </header>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 bg-stone-900 p-6 rounded-lg">
-        {sorted.map((card) => (
-          <article
-            key={`${card.owner}/${card.name}`}
-            aria-label={`${card.name} – ${card.status}`}
-            className="bg-stone-800 border border-stone-600 rounded-lg p-5 flex flex-col gap-2"
-            style={
-              card.status === 'Dead'
-                ? { boxShadow: '0 0 10px rgba(127,29,29,0.5)' }
-                : card.status === 'Undead'
-                  ? { boxShadow: '0 0 10px rgba(20,83,45,0.5)' }
-                  : undefined
-            }
-          >
-            <h2 className="font-serif text-stone-100 text-lg font-semibold">
-              <a
-                href={card.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-stone-300 underline underline-offset-2"
-              >
-                {card.name}
-              </a>
-            </h2>
-
-            <p className="text-stone-400 text-sm">
-              {card.language ?? 'Unknown language'}
-            </p>
-
-            {card.status !== 'UnknownSpecies' && (
-              <>
-                <p className="text-stone-400 text-sm font-mono">
-                  {card.status === 'Dead' ? 'Died: ' : 'Last seen: '}
-                  <time dateTime={card.pushedAt}>
-                    {card.pushedAt.slice(0, 10)}
-                  </time>
-                </p>
-
-                <p className="text-stone-400 text-sm">
-                  {card.deprecatedDepCount === null
-                    ? 'deps unknown'
-                    : `${card.deprecatedDepCount} deprecated dep${card.deprecatedDepCount === 1 ? '' : 's'}`}
-                </p>
-
-                <p className="text-stone-400 text-sm font-mono">
-                  {card.nodeVersion === null
-                    ? 'runtime unknown'
-                    : card.nodeVersionEol === true
-                      ? `Node ${card.nodeVersion} (EOL)`
-                      : `Node ${card.nodeVersion}`}
-                </p>
-              </>
-            )}
-
-            <div className="mt-auto pt-2">
-              {card.status === 'Dead' && (
-                <span className="text-red-500" aria-label="Dead">
-                  💀 <span className="sr-only">Dead</span>
-                  <span aria-hidden="true">Dead</span>
-                </span>
-              )}
-              {card.status === 'Undead' && (
-                <span className="text-green-400" aria-label="Undead">
-                  🧟 <span className="sr-only">Undead</span>
-                  <span aria-hidden="true">Undead</span>
-                </span>
-              )}
-              {card.status === 'Unknown' && (
-                <span className="text-stone-400" aria-label="Unknown">
-                  ❓ <span className="sr-only">Unknown</span>
-                  <span aria-hidden="true">Unknown</span>
-                </span>
-              )}
-              {card.status === 'UnknownSpecies' && (
-                <span className="text-stone-400" aria-label="Unknown species">
-                  ❓ <span className="sr-only">Unknown species</span>
-                  <span aria-hidden="true">Unknown species</span>
-                </span>
-              )}
-            </div>
-          </article>
-        ))}
-      </div>
+      <GraveyardGrid tombstones={sorted} remainder={remainder} />
     </div>
   );
 }

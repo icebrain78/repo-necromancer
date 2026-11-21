@@ -61,7 +61,7 @@ Build the Graveyard feature for Repo Necromancer.
   - Create apps/web/app/graveyard/page.tsx server component
   - Create apps/web/app/graveyard/loading.tsx skeleton
 
-- [ ] 11. UI components
+- [x] 11. UI components
   - Depends on: 1, 10
   - Create apps/web/components/GraveyardInput.tsx
   - Create apps/web/components/GraveyardGrid.tsx
