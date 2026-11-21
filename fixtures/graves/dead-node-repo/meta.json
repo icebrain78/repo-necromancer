@@ -1,0 +1,9 @@
+{
+  "owner": "ghost-dev",
+  "name": "ancient-widget",
+  "language": "JavaScript",
+  "pushedAt": "2019-03-10T14:22:00Z",
+  "archived": false,
+  "nvmrc": null,
+  "description": "Dead fixture: EOL Node.js (v10), deprecated deps (request, node-uuid), stale push (> 2 years ago). Should classify as Dead."
+}

@@ -76,7 +76,7 @@ Build the Graveyard feature for Repo Necromancer.
   - Create apps/web/app/globals.css
   - Create apps/web/tailwind.config.ts
 
-- [ ] 13. End-to-end smoke test with fixture data
+- [x] 13. End-to-end smoke test with fixture data
   - Depends on: 1, 2, 3, 4, 5, 6
   - Create fixtures/graves/ with Dead Undead and non-Node repo fixtures
   - Create packages/core/tests/graveyard-integration.test.ts

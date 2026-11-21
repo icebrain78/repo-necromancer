@@ -41,6 +41,6 @@ export function resolveLtsAlias(alias: string): number | null {
   // Strip the optional "lts/" prefix before looking up the codename.
   const codename = normalised.startsWith('lts/') ? normalised.slice(4) : normalised;
 
-  const major = LTS_TABLE[codename];
+  const major = Object.hasOwn(LTS_TABLE, codename) ? LTS_TABLE[codename] : undefined;
   return major !== undefined ? major : null;
 }

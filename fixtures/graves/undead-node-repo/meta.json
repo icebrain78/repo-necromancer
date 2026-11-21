@@ -1,0 +1,9 @@
+{
+  "owner": "healthy-dev",
+  "name": "living-service",
+  "language": "TypeScript",
+  "pushedAt": "2025-11-01T10:00:00Z",
+  "archived": false,
+  "nvmrc": null,
+  "description": "Undead fixture: current Node.js (v22), no deprecated deps, fresh push (< 2 years before 2026-11-21). Should classify as Undead when eol=false and deprecatedDepCount=0."
+}

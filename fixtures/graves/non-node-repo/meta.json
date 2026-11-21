@@ -1,0 +1,9 @@
+{
+  "owner": "rust-dev",
+  "name": "ferris-crate",
+  "language": "Rust",
+  "pushedAt": "2023-06-01T08:00:00Z",
+  "archived": false,
+  "nvmrc": null,
+  "description": "UnknownSpecies fixture: Rust repo, no package.json, no JavaScript/TypeScript language. Should classify as UnknownSpecies."
+}
