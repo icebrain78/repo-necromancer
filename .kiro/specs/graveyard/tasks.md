@@ -38,7 +38,7 @@ Build the Graveyard feature for Repo Necromancer.
   - Create packages/core/src/classify-repo.ts with classifyRepo pure function
   - Create packages/core/tests/classify-repo.test.ts with unit and property tests
 
-- [ ] 6. sort-tombstones (core)
+- [x] 6. sort-tombstones (core)
   - Depends on: 1, 5
   - Create packages/core/src/sort-tombstones.ts with sortTombstones pure function
   - Create packages/core/tests/sort-tombstones.test.ts with unit and property tests
