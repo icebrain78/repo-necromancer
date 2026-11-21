@@ -10,7 +10,7 @@ Build the Autopsy feature for Repo Necromancer: deep static analysis of a Dead N
 
 ## Tasks
 
-- [ ] 1. Extend shared types with AutopsyReport
+- [x] 1. Extend shared types with AutopsyReport
   - Depends on: graveyard task 1
   - Add `FindingSeverity`, `FindingCategory`, `AutopsyFinding`, `AutopsyReport` to `packages/core/src/types.ts`
   - Add `truncatedDepCount: number` field to `AutopsyReport`

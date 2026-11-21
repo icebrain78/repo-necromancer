@@ -3,6 +3,59 @@
  * These are consumed by both packages/core logic and apps/web UI.
  */
 
+// ---------------------------------------------------------------------------
+// Autopsy types
+// ---------------------------------------------------------------------------
+
+/** How serious an autopsy finding is. */
+export type FindingSeverity = 'fatal' | 'serious' | 'minor';
+
+/** Which dimension of health a finding addresses. */
+export type FindingCategory =
+  | 'runtime'
+  | 'deprecated-deps'
+  | 'outdated-majors'
+  | 'vulnerabilities'
+  | 'hygiene';
+
+/**
+ * A single diagnostic finding produced during autopsy analysis.
+ * All fields are factual; `narrative` prose lives on `AutopsyReport`.
+ */
+export interface AutopsyFinding {
+  /** Stable kebab-case identifier, e.g. "node-eol". */
+  id: string;
+  category: FindingCategory;
+  severity: FindingSeverity;
+  title: string;
+  /** Factual one-liner — no LLM content. */
+  evidence: string;
+  /** Actionable suggestion. */
+  fixHint: string;
+}
+
+/**
+ * Full static-analysis result for one repository autopsy.
+ * Produced by `assembleReport` in packages/core and consumed by both
+ * the web UI and the worker's Soul Restore / Resurrect stages.
+ */
+export interface AutopsyReport {
+  owner: string;
+  name: string;
+  /** ISO 8601 UTC timestamp of when the report was assembled. */
+  generatedAt: string;
+  findings: AutopsyFinding[];
+  /** The single most critical finding; null only when findings is empty. */
+  causeOfDeath: AutopsyFinding | null;
+  /** 3–5 sentence narrative from the LLM (or deterministic fallback). */
+  narrative: string;
+  /**
+   * Number of dependencies that were not analysed because the total exceeded
+   * the 60-dep cap. 0 means all dependencies were analysed.
+   */
+  truncatedDepCount: number;
+}
+
 /** Classification verdict for a repository. */
 export type RepoStatus = 'Dead' | 'Undead' | 'Unknown' | 'UnknownSpecies';
 
