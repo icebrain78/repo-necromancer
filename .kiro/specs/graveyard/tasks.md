@@ -69,7 +69,7 @@ Build the Graveyard feature for Repo Necromancer.
   - Create apps/web/components/StatusBadge.tsx
   - Create apps/web/components/RateLimitError.tsx
 
-- [ ] 12. Landing page and global styles
+- [x] 12. Landing page and global styles
   - Depends on: 1, 11
   - Create apps/web/app/page.tsx
   - Create apps/web/app/layout.tsx
