@@ -56,7 +56,7 @@ Build the Autopsy feature for Repo Necromancer: deep static analysis of a Dead N
   - Extend `apps/web/lib/npm.ts` with `fetchDeprecatedAndLatest(deps): Promise<DepResult[]>`; reuse existing concurrency limiter; failed individual fetches produce null fields
   - Extend `apps/web/lib/github.ts` with `fetchDirListing(owner, repo, path): Promise<boolean>`
 
-- [ ] 7. Autopsy page server component (web)
+- [x] 7. Autopsy page server component (web)
   - Depends on: 1, 2, 3, 4, 5, 6
   - Create `apps/web/app/autopsy/page.tsx` server component:
     - Validate `?repo` param; show error state for malformed values

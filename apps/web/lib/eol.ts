@@ -14,6 +14,43 @@ interface EolEntry {
 }
 
 /**
+ * Fetch the EOL date string for a Node.js major version.
+ *
+ * Returns the raw ISO date string from the endoflife.date API (e.g.
+ * "2023-09-11"), or `null` when the version is unknown or the API fails.
+ * Used by the autopsy page to pass the actual date to `buildRuntimeFinding`.
+ */
+export async function fetchEolDate(majorVersion: number): Promise<string | null> {
+  const url = `${EOL_API}/nodejs/${majorVersion}.json`;
+
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      next: { revalidate: 3600 },
+    });
+  } catch {
+    return null;
+  }
+
+  if (!res.ok) {
+    return null;
+  }
+
+  let data: EolEntry;
+  try {
+    data = (await res.json()) as EolEntry;
+  } catch {
+    return null;
+  }
+
+  if (!data.eol || typeof data.eol !== 'string') {
+    return null;
+  }
+
+  return data.eol;
+}
+
+/**
  * Check whether a Node.js major version has reached end-of-life.
  *
  * Calls `GET https://endoflife.date/api/nodejs/{major}.json` and compares
