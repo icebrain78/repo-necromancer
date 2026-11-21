@@ -186,6 +186,41 @@ export async function fetchFileContent(
   return Buffer.from(cleaned, 'base64').toString('utf-8');
 }
 
+/**
+ * Check whether a directory path exists in a repository and contains entries.
+ *
+ * `GET /repos/{owner}/{repo}/contents/{path}` — returns `true` when the
+ * response is 200 and the body is an array (directory with at least one
+ * entry), `false` on 404 or when the response body is not an array (REQ-A3.5).
+ */
+export async function fetchDirListing(
+  owner: string,
+  repo: string,
+  path: string,
+): Promise<boolean> {
+  const url = `${GITHUB_API}/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/contents/${path}`;
+  const res = await fetch(url, {
+    next: { revalidate: 3600 },
+    headers: {
+      Accept: 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
+      ...authHeaders(),
+    },
+  });
+
+  if (res.status === 404) return false;
+  if (!res.ok) return false;
+
+  let body: unknown;
+  try {
+    body = await res.json();
+  } catch {
+    return false;
+  }
+
+  return Array.isArray(body) && body.length > 0;
+}
+
 // ---------------------------------------------------------------------------
 // Link header parser
 // ---------------------------------------------------------------------------

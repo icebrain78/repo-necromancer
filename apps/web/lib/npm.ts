@@ -6,6 +6,11 @@
  * built-in Data Cache (REQ-8.2).
  */
 
+import type { DepResult } from '@repo-necromancer/core/autopsy/build-dep-findings';
+import { resolveMinVersion } from '@repo-necromancer/core/autopsy/resolve-min-version';
+
+export type { DepResult };
+
 const NPM_REGISTRY = 'https://registry.npmjs.org';
 
 /**
@@ -112,4 +117,85 @@ export async function fetchDeprecatedCount(
   }
 
   return count;
+}
+
+// ---------------------------------------------------------------------------
+// Autopsy: fetch deprecated message + latest version for each dependency
+// ---------------------------------------------------------------------------
+
+/**
+ * Fetch the deprecated message and latest version tag for a single package.
+ * Returns the raw `NpmAbbreviatedMeta` for the caller to extract fields from.
+ * Throws on non-OK HTTP responses (caller uses allSettledWithConcurrency).
+ */
+async function fetchPackageMeta(name: string): Promise<NpmAbbreviatedMeta> {
+  const url = `${NPM_REGISTRY}/${encodeURIComponent(name)}`;
+  const res = await fetch(url, {
+    next: { revalidate: 3600 },
+    headers: {
+      Accept: 'application/vnd.npm.install-v1+json',
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`npm registry returned ${res.status} for ${name}`);
+  }
+
+  return (await res.json()) as NpmAbbreviatedMeta;
+}
+
+/**
+ * Fetch deprecated status and latest version for all packages in `deps`.
+ *
+ * Fans out up to 8 simultaneous registry requests (REQ-A3.2, REQ-A3.3).
+ * Failed individual fetches produce a `DepResult` with `null` fields for
+ * that package so the analysis can proceed with partial data (REQ-A8.7).
+ *
+ * @param deps - `{ packageName: versionRange }` map (pre-capped to ≤ 60 entries).
+ */
+export async function fetchDeprecatedAndLatest(
+  deps: Record<string, string>,
+): Promise<DepResult[]> {
+  const entries = Object.entries(deps);
+
+  if (entries.length === 0) return [];
+
+  const tasks = entries.map(([name, declared]) => async (): Promise<DepResult> => {
+    const meta = await fetchPackageMeta(name);
+    const latestTag = meta['dist-tags']?.latest ?? null;
+    const latestMeta = latestTag !== null ? (meta.versions[latestTag] ?? null) : null;
+    const deprecated =
+      latestMeta !== null &&
+      typeof latestMeta.deprecated === 'string' &&
+      latestMeta.deprecated.length > 0
+        ? latestMeta.deprecated
+        : null;
+
+    return {
+      name,
+      declared,
+      deprecated,
+      latest: latestTag,
+      minVersion: resolveMinVersion(declared),
+    };
+  });
+
+  const settled = await allSettledWithConcurrency(tasks, 8);
+
+  return settled.map((result, i) => {
+    const entry = entries[i];
+    const name = entry?.[0] ?? '';
+    const declared = entry?.[1] ?? '';
+    if (result.status === 'fulfilled') {
+      return result.value;
+    }
+    // On failure, return a DepResult with null fields (REQ-A8.7)
+    return {
+      name,
+      declared,
+      deprecated: null,
+      latest: null,
+      minVersion: resolveMinVersion(declared),
+    };
+  });
 }

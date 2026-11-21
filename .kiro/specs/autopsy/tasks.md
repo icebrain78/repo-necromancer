@@ -50,7 +50,7 @@ Build the Autopsy feature for Repo Necromancer: deep static analysis of a Dead N
   - Create `packages/core/llm/index.ts` exporting `createLlmProvider(config)` and `generateNarrative(report)` with fallback to none-provider on any error
   - Create `packages/core/tests/llm/none-provider.test.ts` verifying output is a non-empty string containing cause-of-death title; no LLM_PROVIDER env var needed
 
-- [ ] 6. OSV client and npm client extension (web)
+- [x] 6. OSV client and npm client extension (web)
   - Depends on: 1, 2
   - Create `apps/web/lib/osv.ts` with `fetchVulnBatch(deps): Promise<OsvVulnSummary>` using `POST https://api.osv.dev/v1/querybatch`; cache via `unstable_cache` with key `["osv", ...sortedKeys]` and `revalidate: 3600`; return zeroed summary on error
   - Extend `apps/web/lib/npm.ts` with `fetchDeprecatedAndLatest(deps): Promise<DepResult[]>`; reuse existing concurrency limiter; failed individual fetches produce null fields
