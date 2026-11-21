@@ -4,8 +4,10 @@
  * Dead repos get a red glow, Undead get a green glow (design.md).
  * Unknown-species tombstones only show name, language, and badge (REQ-7.2).
  * The card uses semantic <article> with aria-label (REQ-9.3).
+ * Dead repos link their name to the autopsy page (REQ-A1.1).
  */
 
+import Link from 'next/link';
 import type { TombstoneData } from '@repo-necromancer/core/types';
 import { StatusBadge } from './StatusBadge';
 
@@ -36,14 +38,23 @@ export function TombstoneCard({ card }: TombstoneCardProps) {
       style={glowStyle(card)}
     >
       <h2 className="font-serif text-stone-100 text-lg font-semibold">
-        <a
-          href={card.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:text-stone-300 underline underline-offset-2"
-        >
-          {card.name}
-        </a>
+        {card.status === 'Dead' ? (
+          <Link
+            href={`/autopsy?repo=${encodeURIComponent(card.owner)}/${encodeURIComponent(card.name)}`}
+            className="hover:text-stone-300 underline underline-offset-2"
+          >
+            {card.name}
+          </Link>
+        ) : (
+          <a
+            href={card.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-stone-300 underline underline-offset-2"
+          >
+            {card.name}
+          </a>
+        )}
       </h2>
 
       <p className="text-stone-400 text-sm">

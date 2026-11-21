@@ -76,7 +76,7 @@ Build the Autopsy feature for Repo Necromancer: deep static analysis of a Dead N
   - Create `apps/web/components/ResurrectButton.tsx` ("use client"; disabled with "Resurrect (coming soon)" label)
   - Add `truncatedDepCount` note to autopsy page when value > 0
 
-- [ ] 9. Link Dead tombstones to autopsy page (web)
+- [x] 9. Link Dead tombstones to autopsy page (web)
   - Depends on: 8
   - Update `apps/web/components/TombstoneCard.tsx`: wrap repo name in `<Link href="/autopsy?repo={owner}/{name}">` when `status === 'Dead'`; leave other statuses as plain text
 
