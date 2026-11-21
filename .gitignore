@@ -1,0 +1,9 @@
+node_modules/
+.next/
+dist/
+.env
+.env.*
+!.env.example
+work/
+*.log
+# NOTE: never ignore .kiro/ (required by Kiroween rules)
