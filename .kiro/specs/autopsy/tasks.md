@@ -16,7 +16,7 @@ Build the Autopsy feature for Repo Necromancer: deep static analysis of a Dead N
   - Add `truncatedDepCount: number` field to `AutopsyReport`
   - Export all new types from the `packages/core` package entry point
 
-- [ ] 2. resolve-min-version and cap-dependencies (core)
+- [x] 2. resolve-min-version and cap-dependencies (core)
   - Depends on: 1
   - Create `packages/core/src/autopsy/resolve-min-version.ts` with `resolveMinVersion(range): string | null`
   - Create `packages/core/src/autopsy/cap-dependencies.ts` with `capDependencies(deps, limit)` returning `{ capped, truncatedDepCount }`

@@ -9,7 +9,9 @@
     "./extract-node-version": "./src/extract-node-version.ts",
     "./resolve-lts-alias": "./src/resolve-lts-alias.ts",
     "./classify-repo": "./src/classify-repo.ts",
-    "./sort-tombstones": "./src/sort-tombstones.ts"
+    "./sort-tombstones": "./src/sort-tombstones.ts",
+    "./autopsy/resolve-min-version": "./src/autopsy/resolve-min-version.ts",
+    "./autopsy/cap-dependencies": "./src/autopsy/cap-dependencies.ts"
   },
   "scripts": {
     "test": "vitest run",
