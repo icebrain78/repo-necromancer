@@ -1,0 +1,25 @@
+{
+  "name": "@repo-necromancer/core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./types": "./src/types.ts",
+    "./detect-node": "./src/detect-node.ts",
+    "./extract-node-version": "./src/extract-node-version.ts",
+    "./resolve-lts-alias": "./src/resolve-lts-alias.ts",
+    "./classify-repo": "./src/classify-repo.ts",
+    "./sort-tombstones": "./src/sort-tombstones.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "fast-check": "^3.22.0",
+    "typescript": "^5.5.0",
+    "vitest": "^2.1.0"
+  }
+}

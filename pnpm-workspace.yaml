@@ -1,0 +1,12 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+
+# Allow build scripts for native modules (pnpm 12+ setting)
+allowBuilds:
+  '@img/sharp-libvips-linux-x64': true
+  '@img/sharp-linux-x64': true
+  '@next/swc-linux-x64-gnu': true
+  '@next/swc-linux-x64-musl': true
+  esbuild: true
+  sharp: true

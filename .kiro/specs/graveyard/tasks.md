@@ -10,7 +10,7 @@ Build the Graveyard feature for Repo Necromancer.
 
 ## Tasks
 
-- [ ] 1. Shared types and project scaffolding
+- [x] 1. Shared types and project scaffolding
   - Create packages/core/src/types.ts defining RepoStatus RepoSignals TombstoneData
   - Create packages/core/package.json with vitest fast-check devDeps and exports
   - Create packages/core/tsconfig.json strict NodeNext
