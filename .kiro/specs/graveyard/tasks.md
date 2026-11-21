@@ -33,7 +33,7 @@ Build the Graveyard feature for Repo Necromancer.
   - Create packages/core/src/resolve-lts-alias.ts with static LTS lookup table
   - Create packages/core/tests/resolve-lts-alias.test.ts with unit and property tests
 
-- [ ] 5. classify-repo (core)
+- [x] 5. classify-repo (core)
   - Depends on: 1, 2, 3, 4
   - Create packages/core/src/classify-repo.ts with classifyRepo pure function
   - Create packages/core/tests/classify-repo.test.ts with unit and property tests
