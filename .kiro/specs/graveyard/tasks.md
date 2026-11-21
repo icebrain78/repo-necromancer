@@ -52,7 +52,7 @@ Build the Graveyard feature for Repo Necromancer.
   - Depends on: 1
   - Create apps/web/lib/npm.ts with fetchDeprecatedCount function
 
-- [ ] 9. endoflife.date client
+- [x] 9. endoflife.date client
   - Depends on: 1
   - Create apps/web/lib/eol.ts with fetchEolStatus function
 
